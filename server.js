@@ -32,26 +32,25 @@ app3.post('/api/CreateDataPost', (req, res) => {
     var tag = req.body.tag;
 
     try {
-        console.log('>>>> userID', userID);
-        console.log('>>>> content', content);
-        console.log('>>>> date', date);
-        console.log('>>>> img1', img1);
-        console.log('>>>> img2', img2);
-        console.log('>>>> img3', img3);
-        console.log('>>>> list1', list1);
-        console.log('>>>> list2', list2);
-        console.log('>>>> list3', list3);
-        console.log('>>>> postID', postID);
-        console.log('>>>> thumbURL', thumbURL);
-        console.log('>>>> title', title);
-        console.log('>>>> username', username);
-        console.log('>>>> like', like);
-        console.log('>>>> tag', tag);
+        console.log('userID', userID);
+        console.log('content', content);
+        console.log('date', date);
+        console.log('img1', img1);
+        console.log('img2', img2);
+        console.log('img3', img3);
+        console.log('list1', list1);
+        console.log('list2', list2);
+        console.log('list3', list3);
+        console.log('postID', postID);
+        console.log('thumbURL', thumbURL);
+        console.log('title', title);
+        console.log('like', like);
+        console.log('tag', tag);
 
-        console.log('path','datapost/'+userID,content,date,
-        img1,img2,img3,list1,list2,list3,postID,thumbURL,title,username,like.tag)
+        console.log('path','datapost/'+ userID+content+date+
+        img1+img2+img3+list1+list2+list3+postID+thumbURL+title+like+tag)
 
-        set(ref(db, 'datapost/' + postID), {
+        set(ref(db, 'datapost/' + userID), {
             userID: userID, //ประกาศเป็น string
             content: content, //ประกาศเป็น string
             date: new Date()+ '',//เป็นการประกาศ ว/ด/ป 
@@ -64,8 +63,7 @@ app3.post('/api/CreateDataPost', (req, res) => {
             postID: postID, 
             thumbURL: thumbURL, //ประกาศเป็น string
             title: title, //ประกาศเป็น string
-            username: username, //ประกาศเป็น string
-            like: like, 
+            like: like,
             tag: tag
         });
         return res.status(200).json({
@@ -82,24 +80,9 @@ app3.post('/api/CreateDataPost', (req, res) => {
 });
 
 
-app3.post('/api/GetDataPostByUsers', (req, res) => {
-    var postID = req.body.postID;
-    var thumbURL = req.body.thumbURL;
-    var title = req.body.title;
-    var userID = req.body.userID;
-    var date = req.body.date;
-    var content = req.body.content;
-    var list1 = req.body.list1;
-    var list2 = req.body.list2;
-    var list3 = req.body.list3;
-    var img1 = req.body.img1;
-    var img2 = req.body.img2;
-    var img3 = req.body.img3;
-    var like = req.body.like;
-    var tag = req.body.tag;
-
-    try{
-        get(ref(db,'datapost/' + postID))
+app3.get('/api/get', (req, res) => {
+    try {
+        get(ref(db, 'datapost'))
         .then((snapshot) => {
             console.log(snapshot.val())
             if( snapshot.exists() ) {
@@ -112,7 +95,7 @@ app3.post('/api/GetDataPostByUsers', (req, res) => {
             else {
                 return res.status(200).json({
                     RespCode: 200,
-                    RespMessage: 'bad',
+                    RespMessage: 'good',
                     Result: 'not found data'
                 })
             }
@@ -133,7 +116,6 @@ app3.post('/api/GetDataPostByUsers', (req, res) => {
         })
     }
 })
-    
 
 //update
 app3.put('/api/UpdateDatapost', (req, res) => {
@@ -165,7 +147,6 @@ app3.put('/api/UpdateDatapost', (req, res) => {
         updates[`posts/${postID}/list3`] = list3;
         updates[`posts/${postID}/thumbURL`] = thumbURL;
         updates[`posts/${postID}/title`] = title;
-        updates[`posts/${postID}/username`] = username;
         updates[`posts/${postID}/like`] = like;
         updates[`posts/${postID}/tag`] = tag;
 
@@ -224,7 +205,6 @@ app3.delete('/api/DeleteDataPost', (req, res) => {
         updates[`posts/${postID}/list3`] = list3;
         updates[`posts/${postID}/thumbURL`] = thumbURL;
         updates[`posts/${postID}/title`] = title;
-        updates[`posts/${postID}/username`] = username;
         updates[`posts/${postID}/like`] = like;
         updates[`posts/${postID}/tag`] = tag;
 
